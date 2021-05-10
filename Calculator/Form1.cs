@@ -37,8 +37,9 @@ namespace Calculator
             if (textBoxResult.Text == "0" || isOperationPerformed) textBoxResult.Clear();
             isOperationPerformed = false;
             var button = (Button)sender;
-            if (button.Text==".")
+            if (button.Text == ".")
             {
+                if (textBoxResult.Text == "") textBoxResult.Text = "0";
                 if (!textBoxResult.Text.Contains(".")) textBoxResult.Text = textBoxResult.Text + button.Text;
             }
             else
@@ -113,7 +114,7 @@ namespace Calculator
 
         private void btnClearEntry_Click(object sender, EventArgs e)
         {
-            textBoxResult.Clear();
+            textBoxResult.Text="0";
         }
 
         private void btnSquare_Click(object sender, EventArgs e)
