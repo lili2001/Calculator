@@ -32,6 +32,22 @@ namespace Calculator
             btnShowMemory.Enabled = true;
         }
 
+        private void ValidateDecimalDot()
+        {
+            string s = textBoxResult.Text;
+            int lenght = textBoxResult.Text.Length;
+            if (textBoxResult.Text[lenght-1] == '.') textBoxResult.Text = s.Substring(0, s.Length - 1);
+        }
+
+        private void CheckForIncompleteOp()
+        {
+            char[] ops = { '+', '-', '*', '/' };
+            if (labelCurrent.Text!="")
+            {
+                if (ops.Contains(labelCurrent.Text[labelCurrent.Text.Length - 1])) btnEqual.PerformClick();
+            }   
+        }
+
         private void button_click(object sender, EventArgs e)
         {
             if (textBoxResult.Text == "0" || isOperationPerformed) textBoxResult.Clear();
@@ -74,6 +90,7 @@ namespace Calculator
             }
             else
             {
+                ValidateDecimalDot();
                 operation = button.Text;
                 resultValue = double.Parse(textBoxResult.Text);
                 labelCurrent.Text = resultValue + " " + operation;
@@ -84,6 +101,7 @@ namespace Calculator
 
         private void btnEqual_Click(object sender, EventArgs e)
         {
+            ValidateDecimalDot();
             switch (operation)
             {
                 case "+":
@@ -119,6 +137,7 @@ namespace Calculator
 
         private void btnSquare_Click(object sender, EventArgs e)
         {
+            CheckForIncompleteOp();
             labelCurrent.Text = textBoxResult.Text + "²";
             resultValue=Math.Pow(double.Parse(textBoxResult.Text),2);
             textBoxResult.Text = resultValue.ToString();
@@ -128,6 +147,7 @@ namespace Calculator
 
         private void btnCubed_Click(object sender, EventArgs e)
         {
+            CheckForIncompleteOp();
             labelCurrent.Text = textBoxResult.Text + "³";
             textBoxResult.Text = (Math.Pow(double.Parse(textBoxResult.Text), 3)).ToString();
             isOperationPerformed = true;
@@ -136,6 +156,7 @@ namespace Calculator
 
         private void btnSqrt_Click(object sender, EventArgs e)
         {
+            CheckForIncompleteOp();
             if (double.Parse(textBoxResult.Text) < 0) MessageBox.Show("Invalid input! Enter a positive number or choose another operation!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             else
             {
@@ -148,6 +169,7 @@ namespace Calculator
 
         private void btnCubicRt_Click(object sender, EventArgs e)
         {
+            CheckForIncompleteOp();
             labelCurrent.Text = "³√(" + textBoxResult.Text + ")";
             double tempCubRt=double.Parse(textBoxResult.Text);
             if (tempCubRt < 0) textBoxResult.Text = (-Math.Pow(-tempCubRt, (double)1 / 3)).ToString();
@@ -196,6 +218,7 @@ namespace Calculator
 
         private void btnDivideByValue_Click(object sender, EventArgs e)
         {
+            CheckForIncompleteOp();
             if (textBoxResult.Text != "0")
             {
                 double tempDiv = 1.0 / double.Parse(textBoxResult.Text);
@@ -207,17 +230,6 @@ namespace Calculator
 
         private void btnMemoryStore_Click(object sender, EventArgs e)
         {
-            /*if (memory.ToString()!=textBoxResult.Text)
-            {
-                listBox1.Items.Insert(0, memory);
-                memory = double.Parse(textBoxResult.Text);
-                listBox1.Items.Insert(0, textBoxResult.Text);
-            }
-            else
-            {
-                memory = double.Parse(textBoxResult.Text);
-                listBox1.Items.Insert(0, textBoxResult.Text);
-            }*/
             bool isEqual = false;
             if (listBox1.Items.Count > 0)
             {
@@ -256,15 +268,6 @@ namespace Calculator
 
         private void btnShowMemory_Click(object sender, EventArgs e)
         {
-            /*if (listBox1.Items.Count > 0)
-            {
-                if (memory.ToString() != listBox1.Items[0])
-                {
-                    listBox1.Items.Insert(0, memory);
-                }
-            }
-            else listBox1.Items.Insert(0, memory);*/
-            //btnMemoryStore.PerformClick();
             if (listBox1.Items.Count > 0)
             {
                 if (memory.ToString() != listBox1.Items[0].ToString())
