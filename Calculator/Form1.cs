@@ -14,7 +14,6 @@ namespace Calculator
     {
         double resultValue = 0;
         double memory = 0;
-        double store;
         bool isMemoryUsed = false;
         string operation = "";
         bool isOperationPerformed = false;
@@ -180,16 +179,38 @@ namespace Calculator
 
         private void btnMemoryAdd_Click(object sender, EventArgs e)
         {
-            memory += double.Parse(textBoxResult.Text);
-            EnableMemoryButtons();
-            isMemoryUsed = true;
+            if (!isMemoryUsed)
+            {
+                memory += double.Parse(textBoxResult.Text);
+                listBox1.Items.Insert(0, memory);
+                isMemoryUsed = true;
+                EnableMemoryButtons();
+                
+            }
+            else
+            {
+                memory += double.Parse(textBoxResult.Text);
+                listBox1.Items[0] = memory;
+                listBox1.Items[0] = listBox1.Items[0];
+            } 
         }
 
         private void btnMemorySub_Click(object sender, EventArgs e)
         {
-            memory -= double.Parse(textBoxResult.Text);
-            EnableMemoryButtons();
-            isMemoryUsed = true;
+            if (!isMemoryUsed)
+            {
+                memory -= double.Parse(textBoxResult.Text);
+                listBox1.Items.Insert(0, memory);
+                isMemoryUsed = true;
+                EnableMemoryButtons();
+                
+            }
+            else
+            {
+                memory -= double.Parse(textBoxResult.Text);
+                listBox1.Items[0] = memory;
+                listBox1.Items[0] = listBox1.Items[0];
+            }  
         }
 
         private void btnMR_Click(object sender, EventArgs e)
@@ -230,28 +251,9 @@ namespace Calculator
 
         private void btnMemoryStore_Click(object sender, EventArgs e)
         {
-            bool isEqual = false;
-            if (listBox1.Items.Count > 0)
-            {
-                if (memory.ToString() == listBox1.Items[0].ToString())
-                {
-                    isEqual = true;
-                }
-            }
-            store = double.Parse(textBoxResult.Text);
-            if (memory != store && isMemoryUsed && !isEqual)
-            {
-                listBox1.Items.Insert(0, memory);
-                memory = store;
-                listBox1.Items.Insert(0, store);
-            }
-            else
-            {
-                listBox1.Items.Insert(0, store);
-                memory = store;
-            }
+            memory =double.Parse(textBoxResult.Text);
+            listBox1.Items.Insert(0,memory);
             EnableMemoryButtons();
-            
         }
 
         private void btnMSAdd_Click(object sender, EventArgs e)
@@ -268,17 +270,6 @@ namespace Calculator
 
         private void btnShowMemory_Click(object sender, EventArgs e)
         {
-            if (listBox1.Items.Count > 0)
-            {
-                if (memory.ToString() != listBox1.Items[0].ToString())
-                {
-                    if (memory != store)
-                    {
-                        listBox1.Items.Insert(0, memory);
-                    }
-                }
-            }
-            else listBox1.Items.Insert(0, memory);
             panel1.Visible = true;
         }
 
